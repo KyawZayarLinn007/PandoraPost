@@ -31,7 +31,10 @@ module.exports.post_create = async (req, res) => {
     console.log(error.message);
     res.status(500).json({
       data: null,
-      error: error.message,
+      error: {
+        status: 500,
+        message: error.message
+      },
     });
   }
 };
@@ -52,7 +55,10 @@ module.exports.posts_get = async (req, res) => {
     console.log(error.message);
     res.status(500).json({
       data: null,
-      error: error.message,
+      error: {
+        status: 500,
+        message: error.message
+      },
     });
   }
 };
@@ -79,7 +85,10 @@ module.exports.single_post_get = async (req, res) => {
     }
     res.status(statusCode).json({
       data: null,
-      error: error.message,
+      error: {
+        status: statusCode,
+        message: error.message
+      },
     });
   }
 };
@@ -113,7 +122,10 @@ module.exports.post_update = async (req, res) => {
     }
     res.status(statusCode).json({
       data: null,
-      error: error.message,
+      error: {
+        status: statusCode,
+        message: error.message
+      },
     });
   }
 };
@@ -143,7 +155,10 @@ module.exports.post_delete = async (req, res) => {
     }
     res.status(statusCode).json({
       data: null,
-      error: error.message,
+      error: {
+        status: statusCode,
+        message: error.message
+      },
     });
   }
 };

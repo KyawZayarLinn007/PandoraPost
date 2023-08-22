@@ -10,7 +10,7 @@ const createToken = (id, email) => {
     email,
   };
 
-  let token = jwt.sign(payload, process.env.JWT_SECRET);
+  let token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1d"});
   return token;
 };
 
@@ -21,12 +21,14 @@ module.exports.register_post = async (req, res) => {
     let email_user = await prisma.user.findUnique({
       where: {
         email,
-      }
+      },
     });
     if (email_user) {
       throw new UserInputError("Email already registered!");
     } else if (password !== confirm_password) {
-      throw new UserInputError("Password and confirm Password must be the same!");
+      throw new UserInputError(
+        "Password and confirm Password must be the same!"
+      );
     } else {
       //bcrypt hashed
       let salt = await bcrypt.genSalt(parseInt(process.env.BCRYPT_SALT_ROUNDS));
@@ -46,19 +48,22 @@ module.exports.register_post = async (req, res) => {
       res.status(201).json({
         data: {
           id: user.id,
-          email: user.email
+          email: user.email,
         },
         error: null,
       });
     }
   } catch (error) {
     let statusCode = 500;
-    if(error instanceof UserInputError) {
-      statusCode = 400
+    if (error instanceof UserInputError) {
+      statusCode = 400;
     }
     res.status(statusCode).json({
       data: null,
-      error: error.message,
+      error: {
+        status: statusCode,
+        message: error.message,
+      },
     });
   }
 };
@@ -84,7 +89,7 @@ module.exports.login_post = async (req, res) => {
       res.status(200).json({
         data: {
           id: user.id,
-          email: user.email
+          email: user.email,
         },
         error: null,
       });
@@ -93,12 +98,15 @@ module.exports.login_post = async (req, res) => {
     }
   } catch (error) {
     let statusCode = 500;
-    if(error instanceof UserInputError) {
+    if (error instanceof UserInputError) {
       statusCode = 400;
     }
     res.status(statusCode).json({
       data: null,
-      error: error.message,
+      error: {
+        status: statusCode,
+        message: error.message,
+      },
     });
   }
 };
@@ -107,7 +115,7 @@ module.exports.logout_post = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({
     data: "token deleted",
-    error: null
+    error: null,
   });
 };
 
@@ -115,5 +123,5 @@ module.exports.verify_auth_post = (req, res) => {
   res.status(200).json({
     data: req.payload,
     error: null,
-  })
+  });
 };
