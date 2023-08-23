@@ -47,7 +47,7 @@ module.exports.isOwner = async (req, res, next) => {
         data: null,
         error: {
           status: 403,
-          message: error.message,
+          message: "Unauthorized",
         },
       });
     }
