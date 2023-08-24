@@ -2,7 +2,7 @@ import { Form, useLoaderData, useParams } from "react-router-dom";
 
 const PostUpdate = () => {
   const { postId } = useParams();
-  const { title, content } = useLoaderData();
+  const { data: { title, content } } = useLoaderData() as { data: { title: string, content: string } }
 
   return (
     <>

@@ -6,7 +6,7 @@ const Register = () => {
   return (
     <>
       <h1>Register</h1>
-      {message && <p>{message}</p>}
+      {message ? message : ""}
       <Form action="/register" method="POST">
         <label>
           Enter username

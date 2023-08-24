@@ -3,6 +3,8 @@ import { axiosResponse } from "../interfaces/axiosResponse";
 import fetchAPI from "../util/fetchAPI";
 import handleError from "../util/handleError";
 import { env } from "../util/environment";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContextProvider";
 
 export async function HomeLoader() {
     const res = await fetchAPI(`${env.VITE_APP_API_URL}/posts`, "GET", {}) as axiosResponse;
@@ -15,11 +17,14 @@ export async function HomeLoader() {
 }
 
 export async function HomeAction({ request }: { request: Request }) {
+    //TODO fix error
+    const { auth } = useContext(AuthContext);
+    const { id } = auth!;
+
     const formData = await request.formData();
     const title = formData.get("title");
     const content = formData.get("content");
-    //TODO get auth user id
-    const user_id = 1;
+    const user_id = id
 
     const res = await fetchAPI(`${env.VITE_APP_API_URL}/posts`, "POST", {
         title,

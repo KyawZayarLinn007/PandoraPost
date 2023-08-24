@@ -6,9 +6,7 @@ const Login = () => {
   return (
     <>
       <h1>Login</h1>
-      {message && (
-        <p>{ message }</p>
-      )}
+      {message ? message : ""}
       <Form action="/login" method="POST">
         <label>
           Enter email

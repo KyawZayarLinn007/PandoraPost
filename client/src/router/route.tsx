@@ -9,8 +9,18 @@ import NotAuthorized from "../pages/error/403";
 import Logout from "../pages/auth/Logout";
 import PostUpdate from "../pages/post/PostUpdate";
 import PostDelete from "../pages/post/PostDelete";
-import { DeleteAction, DetailLoader, HomeAction, HomeLoader, UpdateAction } from "../functions/postFunctions";
-import { LoginAction, LogoutAction, RegisterAction } from "../functions/authFunctions";
+import {
+  DeleteAction,
+  DetailLoader,
+  HomeAction,
+  HomeLoader,
+  UpdateAction,
+} from "../functions/postFunctions";
+import {
+  LoginAction,
+  LogoutAction,
+  RegisterAction,
+} from "../functions/authFunctions";
 
 const router = createBrowserRouter([
   {
@@ -56,12 +66,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/server-error",
-    element: <ServerError />
+    element: <ServerError />,
   },
   {
     path: "/not-authorized",
-    element: <NotAuthorized />
-  }
+    element: <NotAuthorized />,
+  },
 ]);
 
 export default router;

@@ -10,7 +10,7 @@ const createToken = (id, email) => {
     email,
   };
 
-  let token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1d"});
+  let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
   return token;
 };
 
@@ -119,9 +119,27 @@ module.exports.logout_post = (req, res) => {
   });
 };
 
-module.exports.verify_auth_post = (req, res) => {
-  res.status(200).json({
-    data: req.payload,
-    error: null,
-  });
+module.exports.verify_auth_post = async (req, res) => {
+  const token = req.cookies.token;
+
+  try {
+    if (!token) {
+      throw new Error("Not Authenticated");
+    }
+
+    const payload = await jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({
+      data: payload,
+      error: null
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(200).json({
+      data: null,
+      error: {
+        status: 401,
+        message: error.message,
+      },
+    });
+  }
 };
