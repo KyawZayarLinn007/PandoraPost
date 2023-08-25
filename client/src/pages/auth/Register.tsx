@@ -6,7 +6,18 @@ const Register = () => {
   return (
     <>
       <h1>Register</h1>
-      {message ? message : ""}
+      {message ? (
+        <div className="alert alert-error">
+          <img
+            src="/error.svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            alt="error"
+          />
+          <span>{`${message}`}</span>
+        </div>
+      ) : (
+        <div></div>
+      )}
       <Form action="/register" method="POST">
         <label>
           Enter username
